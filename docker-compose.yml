@@ -12,3 +12,13 @@ services:
   postgres:
     image: postgres:15
     environment: { POSTGRES_USER: user, POSTGRES_PASSWORD: pass, POSTGRES_DB: market }
+
+  ma-consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile        # or a separate one if you prefer
+    command: ["python", "-u", "consumer/ma_consumer.py"]
+    env_file: .env
+    depends_on:
+      - kafka
+      - postgres
